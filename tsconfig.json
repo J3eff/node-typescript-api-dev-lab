@@ -1,0 +1,46 @@
+{
+    "compilerOptions": {
+        "target": "es2019",
+        "moduleResolution": "node",
+        "module": "commonjs",
+        "lib": [
+            "es2019"
+        ],
+        "sourceMap": true,
+        "outDir": "dist", //Onde vai sair o código compilado
+        "strict": true, // Para sempre ter o strictMode
+        "noImplicitAny": true,
+        "strictNullChecks": true, // Garante que usuario não utilize propriedades como null ou undefined
+        "strictFunctionTypes": true,
+        "noImplicitThis": true, // Não assumir automatica que existe um this na implementação
+        "resolveJsonModule": true,
+        "alwaysStrict": true,
+        "removeComments": true,
+        "noImplicitReturns": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "baseUrl": ".",
+        "paths": {
+            "@src/*": [
+                "./src/*"
+            ],
+            "@test/*": [
+                "./test/*"
+            ]
+        },
+        "rootDirs": [
+            "./src",
+            "./test"
+        ],
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true
+    },
+    "include": [
+        "./src/**/*.ts",
+        "./test/**/*.ts"
+    ],
+    "exclude": [
+        "./node_modules/*",
+        "dist"
+    ]
+}
