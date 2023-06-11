@@ -69,7 +69,7 @@ describe('StormGlass client', () => {
         data: { errors: ['Rate Limit reached'] },
       })
     );
-    
+
     const stormGlass = new StormGlass(mockedAxios);
 
     await expect(stormGlass.fetchPoints(lat, lng)).rejects.toThrow(
