@@ -1,7 +1,6 @@
 import { InternalError } from '@src/util/errors/internal-error';
 import config, { IConfig } from 'config';
 import * as HTTPUtil from '@src/util/request';
-import { AxiosError } from 'axios';
 
 export interface StormGlassPointSource {
   [Key: string]: number;
@@ -76,17 +75,18 @@ export class StormGlass {
       );
       return this.normalizedResponse(response.data);
     } catch (err) {
-      // This is handling the Axios errors specifically
-      const axiosError = err as AxiosError;
-      if (HTTPUtil.Request.isRequestError(axiosError)) {
+      //@Updated 2022 to support Error as unknown
+      //https://devblogs.microsoft.com/typescript/announcing-typescript-4-4/#use-unknown-catch-variables
+      if (err instanceof Error && HTTPUtil.Request.isRequestError(err)) {
+        const error = HTTPUtil.Request.extractErrorData(err);
         throw new StormGlassResponseError(
-          `Error: ${JSON.stringify(axiosError.response.data)} Code: ${
-            axiosError.response.status
-          }`
+          `Error: ${JSON.stringify(error.data)} Code: ${error.status}`
         );
       }
-      // The type is temporary given we will rework it in the upcoming chapters
-      throw new ClientRequestError((err as Error).message);
+      /**
+       * All the other errors will fallback to a generic client error
+       */
+      throw new ClientRequestError(JSON.stringify(err));
     }
   }
 
